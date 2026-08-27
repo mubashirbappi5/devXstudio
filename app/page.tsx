@@ -269,8 +269,25 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [filter, setFilter] = useState("All");
   const [scrolled, setScrolled] = useState(false);
+  const [preloaderVisible, setPreloaderVisible] = useState(!preview);
+  const [preloaderLeaving, setPreloaderLeaving] = useState(false);
   const visibleProjects = filter === "All" ? projects : projects.filter((item) => item.type === filter);
   const nav = [["Services","#services"],["Our Work","#work"],["Why DevXStudio","#why"],["Process","#process"],["Testimonials","#testimonials"],["Contact","#contact"]];
+  useEffect(() => {
+    if (preview) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const revealTimer = window.setTimeout(() => setPreloaderLeaving(true), 2200);
+    const removeTimer = window.setTimeout(() => {
+      setPreloaderVisible(false);
+      document.body.style.overflow = previousOverflow;
+    }, 2850);
+    return () => {
+      window.clearTimeout(revealTimer);
+      window.clearTimeout(removeTimer);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [preview]);
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 24);
     handleScroll();
@@ -301,6 +318,7 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
     };
   }, []);
   return <main className={preview ? "site-preview-mode" : undefined}>
+    {preloaderVisible && <div className={`site-preloader ${preloaderLeaving ? "is-leaving" : ""}`} role="status" aria-label="Loading DevXStudio"><div className="preloader-mark"><Image src="/devx-symbol.png" alt="" width={180} height={139} priority unoptimized/></div><p>DEVXSTUDIO</p><div className="preloader-line"><i/></div></div>}
     <header className={`site-header ${scrolled ? "scrolled" : ""}`}><button type="button" className="brand" aria-label="Back to top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}><Image src="/devx-symbol.png" alt="DevXStudio" width={360} height={278} priority unoptimized /></button><nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Main navigation">{nav.map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}<a className="nav-mobile-cta" href="#contact" onClick={() => setMenuOpen(false)}>Start a Project <ArrowRight size={16}/></a></nav><a className="nav-cta header-cta" href="#contact"><span className="nav-cta-label">Start a Project</span><span className="nav-cta-icon"><ArrowRight size={16}/></span></a><button className="menu-button" aria-label="Toggle menu" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X/> : <Menu/>}</button></header>
 
     <section className="hero" id="home"><div className="hero-glow"/><div className="container hero-grid"><div className="hero-copy"><div className="eyebrow"><span className="pulse"/> Wix Studio design & development agency</div><h1>We build websites that <em>move business</em> forward.</h1><p>DevXStudio creates modern, conversion-focused and scalable digital experiences with Wix Studio and Velo.</p><div className="hero-actions"><ButtonLink href="#contact">Start a Project</ButtonLink><ButtonLink href="#work" secondary>View Our Work</ButtonLink></div><div className="mini-proof"><div className="avatars"><span>D</span><span>X</span><span>+</span></div><p><strong>Trusted worldwide</strong><br/>by founders, teams and growing brands</p></div></div>{preview ? <PreviewHeroVisual/> : <div className="hero-visual"><LaptopDemo/></div>}</div><div className="hero-strip"><span>WIX STUDIO</span><i/><span>VELO DEVELOPMENT</span><i/><span>CUSTOM DESIGN</span><i/><span>E-COMMERCE</span><i/><span>RESPONSIVE UX</span></div></section>
