@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowRight, BadgeCheck, Blocks, BriefcaseBusiness, Building2, CalendarDays, Check, ChevronRight, Code2, Globe2, HeartPulse, Hotel, Layers3, Menu, MonitorSmartphone, Palette, Rocket, ShoppingBag, Sparkles, Star, Store, Utensils, WandSparkles, X, Zap } from "lucide-react";
+import { ArrowRight, BadgeCheck, Blocks, BriefcaseBusiness, Building2, CalendarDays, Check, ChevronRight, Code2, Globe2, HeartPulse, Hotel, Layers3, Menu, MonitorSmartphone, Palette, Rocket, ShoppingBag, Sparkles, Star, Store, Utensils, WandSparkles, X } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"; 
 
 const services = [
@@ -106,6 +106,86 @@ function TypingCode() {
   return <pre className="typing-code" aria-label="Animated Wix Velo code example"><code>{typed}</code><span className="code-cursor" aria-hidden="true" /></pre>;
 }
 
+const heroDemoCode = `const site = await createSite({\n  brand: "DevXStudio",\n  responsive: true,\n});\n\nawait site.publish();`;
+
+function LaptopDemo() {
+  const [phase, setPhase] = useState<"code" | "publishing" | "live">("code");
+  const [typed, setTyped] = useState("");
+  const previewRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    let typingTimer: ReturnType<typeof setInterval>;
+    let publishTimer: ReturnType<typeof setTimeout>;
+    let liveTimer: ReturnType<typeof setTimeout>;
+    let restartTimer: ReturnType<typeof setTimeout>;
+
+    const runDemo = () => {
+      let index = 0;
+      setPhase("code");
+      setTyped("");
+      typingTimer = setInterval(() => {
+        index += 1;
+        setTyped(heroDemoCode.slice(0, index));
+        if (index < heroDemoCode.length) return;
+        clearInterval(typingTimer);
+        publishTimer = setTimeout(() => setPhase("publishing"), 500);
+        liveTimer = setTimeout(() => setPhase("live"), 1500);
+        restartTimer = setTimeout(runDemo, 8500);
+      }, 27);
+    };
+
+    runDemo();
+    return () => {
+      clearInterval(typingTimer);
+      clearTimeout(publishTimer);
+      clearTimeout(liveTimer);
+      clearTimeout(restartTimer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (phase !== "live") return;
+    const frameWindow = previewRef.current?.contentWindow;
+    const frameDocument = previewRef.current?.contentDocument;
+    if (!frameWindow || !frameDocument) return;
+
+    frameWindow.scrollTo(0, 0);
+    const startedAt = performance.now();
+    const duration = 6200;
+    let animationFrame = 0;
+    const scrollPreview = (now: number) => {
+      const maxScroll = Math.max(0, frameDocument.documentElement.scrollHeight - frameWindow.innerHeight);
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const downwardProgress = Math.min(progress / .68, 1);
+      const upwardProgress = Math.max((progress - .68) / .32, 0);
+      const easeInOut = (value: number) => value < .5 ? 2 * value * value : 1 - Math.pow(-2 * value + 2, 2) / 2;
+      const scrollPosition = progress <= .68
+        ? maxScroll * easeInOut(downwardProgress)
+        : maxScroll * (1 - easeInOut(upwardProgress));
+      frameWindow.scrollTo(0, scrollPosition);
+      if (progress < 1) animationFrame = requestAnimationFrame(scrollPreview);
+    };
+    animationFrame = requestAnimationFrame(scrollPreview);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [phase]);
+
+  return <div className="hero-laptop" aria-label="Code to live website animation">
+    <div className="laptop-screen">
+      <div className="laptop-toolbar"><div><i/><i/><i/></div><span>{phase === "live" ? "devxstudio.com" : "studio.devxstudio.com"}</span><b className={phase === "publishing" ? "is-publishing" : ""}>{phase === "live" ? <><Check size={11}/> Live</> : phase === "publishing" ? "Publishing…" : "Publish"}</b></div>
+      <div className={`laptop-stage ${phase === "live" ? "show-live" : "show-code"}`} aria-live="polite">
+        <div className="laptop-code"><div className="code-file"><Code2 size={13}/> page.tsx</div><pre><code>{typed}</code><span className="code-cursor" aria-hidden="true"/></pre><small><span/> Building your experience</small></div>
+        <div className="laptop-live-site"><iframe ref={previewRef} src="/preview" title="DevXStudio full website preview" tabIndex={-1}/></div>
+      </div>
+    </div>
+    <div className="laptop-base"><span/></div>
+    <div className="demo-status"><span className={phase}/>{phase === "code" ? "Writing code" : phase === "publishing" ? "Publishing site" : "Live site preview"}</div>
+  </div>;
+}
+
+function PreviewHeroVisual() {
+  return <div className="hero-visual preview-hero-visual" aria-hidden="true"><div className="browser main-browser"><div className="browser-top"><i/><i/><i/><span>devxstudio.com</span></div><div className="browser-content"><div className="preview-nav"><Image src="/devx-symbol.png" alt="" width={34} height={26} unoptimized/><span/><span/><b/></div><p>Digital experiences for<br/><strong>forward-thinking brands.</strong></p><div className="preview-grid"><span/><span/><span/></div></div></div><div className="status-pill"><span/> Available for new projects</div></div>;
+}
+
 const processSteps = [
   ["01", "Discover", "Your business, goals and audience."],
   ["02", "Strategy", "Structure, journey and functionality."],
@@ -154,7 +234,7 @@ function ProcessTimeline() {
   </div>;
 }
 
-export default function Home() {
+export function SitePage({ preview = false }: { preview?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [filter, setFilter] = useState("All");
   const [scrolled, setScrolled] = useState(false);
@@ -189,10 +269,10 @@ export default function Home() {
       observer.disconnect();
     };
   }, []);
-  return <main>
+  return <main className={preview ? "site-preview-mode" : undefined}>
     <header className={`site-header ${scrolled ? "scrolled" : ""}`}><button type="button" className="brand" aria-label="Back to top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}><Image src="/devx-symbol.png" alt="DevXStudio" width={360} height={278} priority unoptimized /></button><nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Main navigation">{nav.map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}<a className="nav-cta" href="#contact" onClick={() => setMenuOpen(false)}>Start a Project <ArrowRight size={16}/></a></nav><button className="menu-button" aria-label="Toggle menu" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X/> : <Menu/>}</button></header>
 
-    <section className="hero" id="home"><div className="hero-glow"/><div className="container hero-grid"><div className="hero-copy"><div className="eyebrow"><span className="pulse"/> Wix Studio design & development agency</div><h1>We build websites that <em>move business</em> forward.</h1><p>DevXStudio creates modern, conversion-focused and scalable digital experiences with Wix Studio and Velo.</p><div className="hero-actions"><ButtonLink href="#contact">Start a Project</ButtonLink><ButtonLink href="#work" secondary>View Our Work</ButtonLink></div><div className="mini-proof"><div className="avatars"><span>D</span><span>X</span><span>+</span></div><p><strong>Trusted worldwide</strong><br/>by founders, teams and growing brands</p></div></div><div className="hero-visual" aria-label="DevXStudio website design preview"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="browser main-browser"><div className="browser-top"><i/><i/><i/><span>devxstudio / latest work</span></div><div className="browser-content"><div className="preview-nav"><Image src="/devx-symbol.png" alt="" width={34} height={26} unoptimized/><span/><span/><b/></div><p>Digital experiences for<br/><strong>forward-thinking brands.</strong></p><div className="preview-grid"><span/><span/><span/></div></div></div><div className="float-card results-card"><span className="float-icon"><Zap size={17}/></span><p>Conversion-first</p><strong>Strategy + craft</strong></div><div className="float-card device-card"><MonitorSmartphone size={20}/><div><strong>Responsive</strong><span>Every screen, considered.</span></div></div><div className="status-pill"><span/> Available for new projects</div></div></div><div className="hero-strip"><span>WIX STUDIO</span><i/><span>VELO DEVELOPMENT</span><i/><span>CUSTOM DESIGN</span><i/><span>E-COMMERCE</span><i/><span>RESPONSIVE UX</span></div></section>
+    <section className="hero" id="home"><div className="hero-glow"/><div className="container hero-grid"><div className="hero-copy"><div className="eyebrow"><span className="pulse"/> Wix Studio design & development agency</div><h1>We build websites that <em>move business</em> forward.</h1><p>DevXStudio creates modern, conversion-focused and scalable digital experiences with Wix Studio and Velo.</p><div className="hero-actions"><ButtonLink href="#contact">Start a Project</ButtonLink><ButtonLink href="#work" secondary>View Our Work</ButtonLink></div><div className="mini-proof"><div className="avatars"><span>D</span><span>X</span><span>+</span></div><p><strong>Trusted worldwide</strong><br/>by founders, teams and growing brands</p></div></div>{preview ? <PreviewHeroVisual/> : <div className="hero-visual"><LaptopDemo/></div>}</div><div className="hero-strip"><span>WIX STUDIO</span><i/><span>VELO DEVELOPMENT</span><i/><span>CUSTOM DESIGN</span><i/><span>E-COMMERCE</span><i/><span>RESPONSIVE UX</span></div></section>
 
     <section className="stats-section"><div className="container stats-grid"><div><strong><AnimatedNumber value={1000}/></strong><p>Projects completed</p></div><div><strong><AnimatedNumber value={600}/></strong><p>Unique clients</p></div><div><strong><AnimatedNumber value={400}/></strong><p>Repeat clients</p></div><div className="expert-stat"><BadgeCheck/><strong>Wix Studio</strong><p>Design & development experts</p></div></div><p className="trust-line"><Globe2 size={17}/> Trusted by businesses, entrepreneurs and brands worldwide.</p></section>
 
@@ -220,4 +300,8 @@ export default function Home() {
 
     <footer><div className="container footer-grid"><div className="footer-brand"><Image src="/devx-wordmark.png" alt="DevXStudio" width={205} height={40} unoptimized/><p>Wix Studio Design & Development Agency</p><span>High-performing digital experiences for ambitious businesses worldwide.</span></div><div><h4>Navigate</h4>{[["Services","#services"],["Portfolio","#work"],["Why us","#why"],["Process","#process"],["FAQ","#faq"],["Contact","#contact"]].map(x=><a key={x[0]} href={x[1]}>{x[0]}</a>)}</div><div><h4>Services</h4>{["Wix Studio","Velo Development","Website Design","Website Redesign","E-commerce","Booking Websites","Responsive Optimization"].map(x=><a key={x} href="#services">{x}</a>)}</div><div><h4>Start a conversation</h4><a className="footer-email" href="mailto:hello@devxstudio.com">hello@devxstudio.com</a><p>Have a project in mind?</p><a className="footer-link" href="#contact">Get a Quote <ArrowRight size={15}/></a></div></div><div className="container copyright"><span>© 2026 DevXStudio. All Rights Reserved.</span><span>Designed for what&apos;s next.</span></div></footer>
   </main>;
+}
+
+export default function Home() {
+  return <SitePage/>;
 }
