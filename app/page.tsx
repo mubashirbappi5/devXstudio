@@ -35,9 +35,28 @@ const teamMembers = [
   { initials: "03", name: "Team Member", role: "Velo Developer", focus: "CMS · APIs · Automation" },
   { initials: "04", name: "Team Member", role: "Project Strategist", focus: "Strategy · Client success" },
 ];
+const marketplaceServices = [
+  { title: "Wix Studio Design", description: "Distinctive, responsive layouts designed around your brand and business goals." },
+  { title: "Custom Velo Development", description: "Smart functionality, CMS systems and integrations built for the way you work." },
+  { title: "Website Redesign", description: "A thoughtful visual and structural refresh that makes your website feel current." },
+  { title: "Responsive Optimization", description: "A polished experience across desktop, tablet and mobile—without compromise." },
+];
 
 function ButtonLink({ href, children, secondary = false }: { href: string; children: React.ReactNode; secondary?: boolean }) {
   return <a className={secondary ? "button button-secondary" : "button"} href={href}><span className="button-sizer" aria-hidden="true"><span>{children}</span><i/></span><span className="button-label">{children}</span><span className="button-icon"><ArrowRight size={17}/></span></a>;
+}
+
+function MarketplaceSlider() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => setActive(current => (current + 1) % marketplaceServices.length), 4200);
+    return () => window.clearInterval(timer);
+  }, [paused]);
+
+  return <div className="capability-slider stack-carousel" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={() => setPaused(false)} aria-roledescription="carousel" aria-label="Wix services"><div className="capability-stack">{marketplaceServices.map(({title,description},index)=>{const position=(index-active+marketplaceServices.length)%marketplaceServices.length;return <article className={`capability-slide stack-${position}`} key={title} aria-hidden={position !== 0} onClick={() => position !== 0 && setActive(index)}><div className="capability-card-head"><Image src="/devx-symbol.png" alt="DevXStudio" width={42} height={33} unoptimized/><div><small>Built around your goals</small><strong>Design. Develop. Deliver.</strong></div></div><div className="capability-content"><h3>{title}</h3><p>{description}</p></div></article>})}</div><div className="capability-controls" role="group" aria-label="Choose service">{marketplaceServices.map((service,index)=><button type="button" key={service.title} className={active === index ? "active" : ""} onClick={() => setActive(index)} aria-label={`Show ${service.title}`} aria-pressed={active === index}><span/></button>)}</div></div>;
 }
 
 function AnimatedNumber({ value }: { value: number }) {
@@ -286,7 +305,7 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
 
     <section className="section industries"><div className="container"><div className="section-head center"><span className="kicker">Industries</span><h2>Websites for every type of <em>business.</em></h2></div><div className="industry-grid">{[[BriefcaseBusiness,"Business"],[Utensils,"Restaurants"],[Building2,"Real Estate"],[ShoppingBag,"E-commerce"],[HeartPulse,"Healthcare"],[BadgeCheck,"Professional Services"],[Palette,"Agencies"],[Sparkles,"Consultants"],[Rocket,"Startups"],[Star,"Personal Brands"],[Hotel,"Hospitality"],[Store,"Local Businesses"]].map(([Icon,label])=>{const I=Icon as typeof Store; return <div key={String(label)}><I size={20}/><span>{String(label)}</span><ChevronRight size={16}/></div>})}</div></div></section>
 
-    <section className="marketplace"><div className="container marketplace-grid"><div className="marketplace-copy"><span className="kicker">Wix Marketplace clients</span><h2>Looking for a Wix Studio expert?</h2><p>From a focused redesign to advanced Velo development, we turn ambitious ideas into polished, responsive digital experiences.</p><div className="marketplace-action"><ButtonLink href="#contact">Hire DevXStudio</ButtonLink><span><BadgeCheck size={17}/> Wix Studio specialists</span></div></div><div className="capability-card"><div className="capability-head"><Image src="/devx-symbol.png" alt="DevXStudio mark" width={72} height={56} unoptimized/><div><small>Built around your goals</small><strong>Design. Develop. Deliver.</strong></div></div><div className="capability-list">{["Wix Studio Design","Custom Development","Velo Development","Responsive Optimization","Website Redesign","API & Automation"].map((x,i)=><span key={x}><i>{String(i+1).padStart(2,"0")}</i>{x}<Check size={14}/></span>)}</div><div className="capability-foot"><span>One expert team</span><span>From idea to launch <ArrowRight size={14}/></span></div></div></div></section>
+    <section className="marketplace"><div className="container marketplace-grid"><div className="marketplace-copy"><span className="kicker">Wix Marketplace clients</span><h2>Looking for a Wix Studio expert?</h2><p>From a focused redesign to advanced Velo development, we turn ambitious ideas into polished, responsive digital experiences.</p><div className="marketplace-action"><ButtonLink href="#contact">Hire DevXStudio</ButtonLink><span><BadgeCheck size={17}/> Wix Studio specialists</span></div></div><MarketplaceSlider/></div></section>
 
     <section className="final-cta" id="contact"><div className="cta-orb one"/><div className="cta-orb two"/><div className="container"><span className="kicker light">Let&apos;s create something exceptional</span><h2>Have a website idea?<br/><em>Let&apos;s build it.</em></h2><p>Tell us what you need and our team will help turn your idea into a modern, high-performing Wix Studio website.</p><div className="hero-actions"><a className="button light-button" href="mailto:hello@devxstudio.com"><span className="button-sizer" aria-hidden="true"><span>Start Your Project</span><i/></span><span className="button-label">Start Your Project</span><span className="button-icon"><ArrowRight size={17}/></span></a><a className="button ghost-button" href="#work"><span className="button-sizer" aria-hidden="true"><span>View Our Work</span><i/></span><span className="button-label">View Our Work</span><span className="button-icon"><ArrowRight size={17}/></span></a></div></div></section>
 
