@@ -1337,7 +1337,7 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
           <div className="hero-actions">
             <a
               className="button ghost-button"
-              href="mailto:contact@devxstudio.agency"
+              href="https://www.wix.com/studio/community/partners/devx-studio"
             >
               <span className="button-sizer" aria-hidden="true">
                 <span>Start Your Project</span>
