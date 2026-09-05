@@ -842,8 +842,8 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
             </p>
             <div className="hero-actions">
               <ButtonLink href="/contact">Start a Project</ButtonLink>
-              <ButtonLink href="#work" secondary>
-                View Our Work
+              <ButtonLink href="https://www.wix.com/studio/community/partners/devx-studio" secondary>
+                Schedule a Meeting
               </ButtonLink>
             </div>
           </div>
