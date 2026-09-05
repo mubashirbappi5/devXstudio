@@ -15,7 +15,7 @@ export function ContactForm() {
     const payload = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/smt.tools24@gmail.com", {
+      const response = await fetch("https://formsubmit.co/ajax/contact@devxstudio.agency", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ ...payload, _subject: "New project enquiry — DevXStudio", _template: "table" }),

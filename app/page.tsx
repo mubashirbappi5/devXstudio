@@ -1337,7 +1337,7 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
           <div className="hero-actions">
             <a
               className="button ghost-button"
-              href="mailto:smt.tools24@gmail.com"
+              href="mailto:contact@devxstudio.agency"
             >
               <span className="button-sizer" aria-hidden="true">
                 <span>Start Your Project</span>

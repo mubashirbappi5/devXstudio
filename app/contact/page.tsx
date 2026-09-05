@@ -20,7 +20,7 @@ export default function ContactPage() {
           <h1>Have an idea?<br/><em>Let&apos;s build it well.</em></h1>
           <p>Tell us where you are, what you&apos;re building and what success looks like. We&apos;ll come back with a clear next step.</p>
           <div className="contact-direct">
-            <a href="mailto:smt.tools24@gmail.com"><Mail size={18}/><span><small>Email us</small>smt.tools24@gmail.com</span></a>
+            <a href="mailto:contact@devxstudio.agency"><Mail size={18}/><span><small>Email us</small>contact@devxstudio.agency</span></a>
             <div><Clock3 size={18}/><span><small>Typical response</small>Within one business day</span></div>
             <div><MapPin size={18}/><span><small>Working with</small>Clients worldwide</span></div>
           </div>
