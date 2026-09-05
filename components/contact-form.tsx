@@ -21,6 +21,10 @@ export function ContactForm() {
         body: JSON.stringify({ ...payload, _subject: "New project enquiry — DevXStudio", _template: "table" }),
       });
       if (!response.ok) throw new Error("Submission failed");
+      const result: { success?: boolean | string } = await response.json();
+      if (result.success !== true && result.success !== "true") {
+        throw new Error("Submission was not accepted");
+      }
       form.reset();
       setStatus("success");
     } catch {
@@ -45,7 +49,7 @@ export function ContactForm() {
       <button className="contact-submit" type="submit" disabled={status === "sending"}><span>{status === "sending" ? "Sending enquiry..." : "Send Project Enquiry"}</span>{status === "sending" ? <LoaderCircle className="contact-spinner" size={18}/> : <ArrowRight size={18}/>}</button>
       <div className="contact-feedback" aria-live="polite">
         {status === "success" && <p className="success"><CheckCircle2 size={16}/>Thank you — your enquiry has been sent successfully.</p>}
-        {status === "error" && <p className="error">We couldn&apos;t send your enquiry. Please try again or email us directly.</p>}
+        {status === "error" && <p className="error">We couldn&apos;t send your enquiry. Please try again or email <a href="mailto:contact@devxstudio.agency">contact@devxstudio.agency</a>.</p>}
       </div>
       <p className="contact-privacy">By sending this form, you agree that we may contact you about your enquiry.</p>
     </form>
