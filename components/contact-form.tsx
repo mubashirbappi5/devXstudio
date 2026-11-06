@@ -15,10 +15,10 @@ export function ContactForm() {
     const payload = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/contact@devxstudio.agency", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ ...payload, _subject: "New project enquiry — DevXStudio", _template: "table" }),
+        body: JSON.stringify(payload),
       });
       if (!response.ok) throw new Error("Submission failed");
       const result: { success?: boolean | string } = await response.json();
