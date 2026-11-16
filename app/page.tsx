@@ -711,7 +711,6 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
     ["Services", "#services"],
     ["Our Work", "/work"],
     ["Our Team", "/team"],
-    ["Cost Calculator", "/website-cost-calculator"],
     ["Why DevXStudio", "#why"],
     ["Process", "#process"],
     ["Testimonials", "#testimonials"],

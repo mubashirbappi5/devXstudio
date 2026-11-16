@@ -9,17 +9,15 @@ const links = [
   ["Home", "/"],
   ["Our Work", "/work"],
   ["Our Team", "/team"],
-  ["Cost Calculator", "/website-cost-calculator"],
   ["Services", "/#services"],
   ["Contact", "/contact"],
 ];
 
-export function InnerHeader({ active }: { active?: "work" | "team" | "contact" | "calculator" }) {
+export function InnerHeader({ active }: { active?: "work" | "team" | "contact" }) {
   const [open, setOpen] = useState(false);
   const isActive = (href: string) =>
     (active === "work" && href === "/work") ||
     (active === "team" && href === "/team") ||
-    (active === "calculator" && href === "/website-cost-calculator") ||
     (active === "contact" && href === "/contact");
   return <header className={`inner-header ${open?"menu-open":""}`}>
     <Link className="inner-brand" href="/" aria-label="DevXStudio home"><Image src="/devx-symbol.png" alt="DevXStudio — Wix Studio Agency" width={360} height={278} priority unoptimized/></Link>

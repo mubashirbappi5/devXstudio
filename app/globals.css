@@ -386,3 +386,97 @@ p{font-family:var(--font-geist-sans),Arial,Helvetica,sans-serif}
 @media(max-width:780px){.case-cover{height:500px;padding:28px 34px 22px}.case-laptop{--case-screen-height:348px}.case-laptop-lid{height:380px;padding:17px 12px 12px;border-radius:17px 17px 8px 8px}.case-laptop-base{height:19px}.case-laptop-base span{width:80px;height:6px}}
 @media(max-width:480px){.case-cover{height:385px;padding:25px 24px 18px}.case-laptop{--case-screen-height:250px;width:96%}.case-laptop-lid{height:280px;padding:16px 9px 10px;border-radius:13px 13px 6px 6px}.case-camera{top:6px;width:4px;height:4px}.case-laptop-base{height:15px;border-radius:2px 2px 13px 13px}.case-laptop-base span{width:55px;height:5px}}
 .contact-submit:disabled{cursor:wait;opacity:.75;transform:none}.contact-honey{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important}.contact-feedback{min-height:26px}.contact-feedback p{display:flex;align-items:center;justify-content:center;gap:7px;margin:12px 0 0;font-size:11px;font-weight:750;text-align:center}.contact-feedback .success{color:var(--green)}.contact-feedback .error{color:#b33a3a}.contact-spinner{animation:contactSpin .8s linear infinite}@keyframes contactSpin{to{transform:rotate(360deg)}}
+
+/* Floating Sticky Website Cost Calculator Button */
+.floating-calculator-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9990;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #07291b 0%, #0e4429 100%);
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1.5px solid #1c8d51;
+  box-shadow: 0 10px 28px rgba(7, 41, 27, 0.28), 0 0 0 1px rgba(54, 218, 114, 0.15);
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, box-shadow;
+  backdrop-filter: blur(10px);
+}
+
+.floating-calculator-btn:hover {
+  transform: translateY(-4px) scale(1.03);
+  background: linear-gradient(135deg, #0a3a27 0%, #166534 100%);
+  border-color: #36da72;
+  box-shadow: 0 14px 36px rgba(7, 41, 27, 0.38), 0 0 18px rgba(54, 218, 114, 0.35);
+  color: #ffffff;
+}
+
+.floating-calculator-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #166534;
+  color: #ffffff;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.floating-calculator-btn:hover .floating-calculator-icon {
+  background: #22c55e;
+  color: #07291b;
+}
+
+.floating-calculator-ping {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 9px;
+  height: 9px;
+  background: #36da72;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #07291b;
+  animation: calcPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes calcPing {
+  0% {
+    box-shadow: 0 0 0 0 rgba(54, 218, 114, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(54, 218, 114, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(54, 218, 114, 0);
+  }
+}
+
+.floating-calculator-label {
+  display: inline-block;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 640px) {
+  .floating-calculator-btn {
+    bottom: 20px;
+    right: 18px;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    gap: 8px;
+  }
+  .floating-calculator-icon {
+    width: 28px;
+    height: 28px;
+  }
+}

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { CustomCursor } from "@/components/custom-cursor";
+import { FloatingCalculatorButton } from "@/components/floating-calculator-btn";
 import { getOrganizationSchema, getWebsiteSchema } from "@/lib/schema";
 
 const geistSans = Geist({
@@ -123,6 +124,7 @@ export default function RootLayout({
       <body className={geistSans.variable}>
         <CustomCursor />
         {children}
+        <FloatingCalculatorButton />
       </body>
     </html>
   );

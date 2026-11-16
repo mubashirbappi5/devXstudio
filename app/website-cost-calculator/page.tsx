@@ -89,7 +89,7 @@ export default async function WebsiteCostCalculatorPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }}
       />
 
-      <InnerHeader active="calculator" />
+      <InnerHeader />
 
       <section className="calc-hero">
         <span className="kicker">Dynamic Project Estimator</span>
