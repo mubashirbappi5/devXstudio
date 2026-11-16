@@ -89,10 +89,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/devx-symbol.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/devx-symbol.png", sizes: "383x284", type: "image/png" },
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
-    shortcut: "/devx-symbol.png",
+    shortcut: "/favicon.ico",
     apple: "/devx-symbol.png",
   },
 };
