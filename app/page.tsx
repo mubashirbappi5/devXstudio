@@ -2,6 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   ArrowRight,
   BadgeCheck,
@@ -199,8 +200,31 @@ function ButtonLink({
   children: React.ReactNode;
   secondary?: boolean;
 }) {
+  const isExternal = href.startsWith("http");
+  if (isExternal) {
+    return (
+      <a
+        className={secondary ? "button button-secondary" : "button"}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span className="button-sizer" aria-hidden="true">
+          <span>{children}</span>
+          <i />
+        </span>
+        <span className="button-label">{children}</span>
+        <span className="button-icon">
+          <ArrowRight size={17} />
+        </span>
+      </a>
+    );
+  }
   return (
-    <a className={secondary ? "button button-secondary" : "button"} href={href}>
+    <Link
+      className={secondary ? "button button-secondary" : "button"}
+      href={href}
+    >
       <span className="button-sizer" aria-hidden="true">
         <span>{children}</span>
         <i />
@@ -209,7 +233,7 @@ function ButtonLink({
       <span className="button-icon">
         <ArrowRight size={17} />
       </span>
-    </a>
+    </Link>
   );
 }
 
@@ -252,7 +276,7 @@ function MarketplaceSlider() {
               <div className="capability-card-head">
                 <Image
                   src="/devx-symbol.png"
-                  alt="DevXStudio"
+                  alt="DevXStudio — Wix Agency Symbol"
                   width={42}
                   height={33}
                   unoptimized
@@ -511,7 +535,7 @@ function LaptopDemo() {
             <i />
           </div>
           <span>
-            {phase === "live" ? "devxstudio.com" : "studio.devxstudio.com"}
+            {phase === "live" ? "devxstudio.agency" : "studio.devxstudio.agency"}
           </span>
           <b className={phase === "publishing" ? "is-publishing" : ""}>
             {phase === "live" ? (
@@ -574,13 +598,13 @@ function PreviewHeroVisual() {
           <i />
           <i />
           <i />
-          <span>devxstudio.com</span>
+          <span>devxstudio.agency</span>
         </div>
         <div className="browser-content">
           <div className="preview-nav">
             <Image
               src="/devx-symbol.png"
-              alt=""
+              alt="DevXStudio — Wix Studio Agency"
               width={34}
               height={26}
               unoptimized
@@ -696,8 +720,10 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
     if (preview) return;
     const hasSeenPreloader = window.sessionStorage.getItem("devx-preloader-seen");
     if (hasSeenPreloader) {
-      setPreloaderVisible(false);
-      setPreloaderLeaving(false);
+      queueMicrotask(() => {
+        setPreloaderVisible(false);
+        setPreloaderLeaving(false);
+      });
       return;
     }
     window.sessionStorage.setItem("devx-preloader-seen", "true");
@@ -766,7 +792,7 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
           role="status"
           aria-label="Loading DevXStudio"
         >
-          <Image className="preloader-source-symbol" src="/devx-symbol.png" alt="" width={180} height={139} priority unoptimized />
+          <Image className="preloader-source-symbol" src="/devx-symbol.png" alt="DevXStudio Logo" width={180} height={139} priority unoptimized />
           <div className="preloader-wordmark" aria-hidden="true">
             <span className="preloader-dev"><b>D</b><i>EV</i></span>
             <span className="preloader-x">X</span>
@@ -786,7 +812,7 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
         >
           <Image
             src="/devx-symbol.png"
-            alt="DevXStudio"
+            alt="DevXStudio — Wix Studio Agency"
             width={360}
             height={278}
             priority
@@ -919,7 +945,13 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
             {services.map(([Icon, title, desc]) => {
               const I = Icon as typeof BriefcaseBusiness;
               return (
-                <article className="service-card" key={String(title)}>
+                <Link
+                  className="service-card"
+                  href="/contact"
+                  key={String(title)}
+                  title={`Hire DevXStudio — ${String(title)}`}
+                  style={{ textDecoration: "none", color: "inherit", display: "block" }}
+                >
                   <div className="service-icon">
                     <I size={23} />
                   </div>
@@ -928,7 +960,7 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
                   </span>
                   <h3>{String(title)}</h3>
                   <p>{String(desc)}</p>
-                </article>
+                </Link>
               );
             })}
           </div>
@@ -1013,7 +1045,7 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
                     <div className="project-screenshot">
                       <Image
                         src={p.screenshot}
-                        alt={`${p.name} full website design`}
+                        alt={`${p.name} — Wix Studio website design by DevXStudio`}
                         width={1920}
                         height={6070}
                         unoptimized
@@ -1197,7 +1229,7 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
                   {member.photo ? (
                     <Image
                       src={member.photo.replace(".jpg", "-unified.png")}
-                      alt={member.name}
+                      alt={`${member.name} — ${member.role} at DevXStudio`}
                       width={640}
                       height={640}
                       unoptimized
@@ -1288,9 +1320,15 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
               const I = Icon as typeof Store;
               return (
                 <div key={String(label)}>
-                  <I size={20} />
-                  <span>{String(label)}</span>
-                  <ChevronRight size={16} />
+                  <Link
+                    href="/work"
+                    title={`View ${String(label)} Wix Studio projects`}
+                    style={{ display: "contents", color: "inherit", textDecoration: "none" }}
+                  >
+                    <I size={20} />
+                    <span>{String(label)}</span>
+                    <ChevronRight size={16} />
+                  </Link>
                 </div>
               );
             })}

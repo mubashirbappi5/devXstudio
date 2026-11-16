@@ -13,7 +13,7 @@ const links = [
 
 export function SiteFooter(){return <footer className="site-footer">
   <div className="container footer-main">
-    <div className="footer-intro"><Image src="/devx-wordmark.png" alt="DevXStudio" width={205} height={40} unoptimized/><p>Wix Studio design and development for ambitious businesses worldwide.</p></div>
+    <div className="footer-intro"><Image src="/devx-wordmark.png" alt="DevXStudio — Wix Studio & Velo Development Agency" width={205} height={40} unoptimized/><p>Wix Studio design and development for ambitious businesses worldwide.</p></div>
     <div className="footer-links"><h4>Explore</h4>{links.map(([label,href])=><Link href={href} key={label}>{label}</Link>)}</div>
     <div className="footer-contact"><h4>Start a conversation</h4><a className="footer-email" href="mailto:contact@devxstudio.agency">contact@devxstudio.agency</a><p>Have a website idea or a project ready to move?</p><Link className="footer-cta" href="/contact">Get a Quote <ArrowRight size={16}/></Link></div>
   </div>

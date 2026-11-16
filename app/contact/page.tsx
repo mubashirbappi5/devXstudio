@@ -3,14 +3,52 @@ import { Clock3, Mail, MapPin } from "lucide-react";
 import { SiteFooter } from "@/components/site-footer";
 import { ContactForm } from "@/components/contact-form";
 import { InnerHeader } from "@/components/inner-header";
+import { getBreadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Contact | DevXStudio",
-  description: "Tell DevXStudio about your next Wix Studio, Velo or custom website project.",
+  title: "Contact DevXStudio — Hire Wix Developer & Wix Studio Agency",
+  description:
+    "Ready to start your next website build? Contact DevXStudio to hire expert Wix Studio and Velo developers for custom design, redesigns, and web development.",
+  alternates: {
+    canonical: "https://devxstudio.agency/contact",
+  },
+  openGraph: {
+    title: "Contact DevXStudio — Hire Wix Developer & Wix Studio Agency",
+    description:
+      "Ready to start your next website build? Contact DevXStudio to hire expert Wix Studio and Velo developers for custom design, redesigns, and web development.",
+    url: "https://devxstudio.agency/contact",
+    type: "website",
+    images: [
+      {
+        url: "/devx-wordmark.png",
+        width: 1200,
+        height: 630,
+        alt: "DevXStudio — Contact & Hire Wix Developers",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact DevXStudio — Hire Wix Developer & Wix Studio Agency",
+    description:
+      "Contact DevXStudio to hire expert Wix Studio and Velo developers for custom design and web applications.",
+    images: ["/devx-wordmark.png"],
+  },
 };
 
 export default function ContactPage() {
+  const breadcrumbs = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Contact", url: "/contact" },
+  ]);
+
   return <main className="contact-page">
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(breadcrumbs),
+      }}
+    />
     <InnerHeader active="contact" />
 
     <section className="contact-hero">

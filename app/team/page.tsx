@@ -4,8 +4,38 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck, Code2, Layers3, Sparkles } from "lucide-react";
 import { SiteFooter } from "@/components/site-footer";
 import { InnerHeader } from "@/components/inner-header";
+import { getBreadcrumbSchema } from "@/lib/schema";
 
-export const metadata: Metadata = { title:"Our Team | DevXStudio", description:"Meet the focused team of Wix Studio designers, Velo developers and CMS specialists behind DevXStudio." };
+export const metadata: Metadata = {
+  title: "Our Team — Expert Wix Studio Designers & Velo Developers | DevXStudio",
+  description:
+    "Meet DevXStudio's expert team of senior Wix Studio designers, Velo full-stack developers, and CMS specialists delivering high-converting web solutions.",
+  alternates: {
+    canonical: "https://devxstudio.agency/team",
+  },
+  openGraph: {
+    title: "Our Team — Expert Wix Studio Designers & Velo Developers | DevXStudio",
+    description:
+      "Meet DevXStudio's expert team of senior Wix Studio designers, Velo full-stack developers, and CMS specialists delivering high-converting web solutions.",
+    url: "https://devxstudio.agency/team",
+    type: "profile",
+    images: [
+      {
+        url: "/devx-wordmark.png",
+        width: 1200,
+        height: 630,
+        alt: "DevXStudio — Wix Studio & Velo Development Team",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Our Team — Expert Wix Studio Designers & Velo Developers | DevXStudio",
+    description:
+      "Meet DevXStudio's team of Wix Studio designers, Velo developers, and CMS specialists.",
+    images: ["/devx-wordmark.png"],
+  },
+};
 
 const members = [
   { name:"Mubassir Bappi", role:"Lead Web Developer", photo:"/mubassir-bappi.jpg", intro:"Leads complex digital builds from technical planning through launch, connecting ambitious ideas with reliable, scalable execution.", specialties:["Custom APIs","Velo architecture","Wix apps"], number:"01" },
@@ -21,11 +51,24 @@ const members = [
   { name:"Md Riyad Islam", role:"Wix Designer", photo:"/md-riyad-islam.jpg", intro:"Creates professional Wix website designs that balance strong visual direction, easy navigation and practical business goals.", specialties:["Wix design","Visual direction","User experience"], number:"11" },
 ];
 
-export default function TeamPage(){return <main className="team-page">
-  <InnerHeader active="team" />
-  <section className="team-page-hero"><div className="container"><div className="team-hero-grid"><div><span className="kicker">The people behind DevXStudio</span><h1>Small by design.<br/><em>Built for big ideas.</em></h1></div><div><p>We&apos;re a focused team of designers and developers who care about thoughtful details, clean execution and websites that genuinely move businesses forward.</p><div className="team-hero-proof"><span><strong>1000+</strong> Projects delivered</span><span><strong>400+</strong> Repeat clients</span></div></div></div></div></section>
-  <section className="team-roster"><div className="container">{members.map((member,index)=><article className="team-profile" key={member.name}><div className="team-profile-photo"><Image src={member.photo.replace(".jpg","-unified.png")} alt={member.name} width={720} height={900} priority={index<2} unoptimized/><span>{member.number}</span></div><div className="team-profile-copy"><span>{member.role}</span><h2>{member.name}</h2><p>{member.intro}</p><div>{member.specialties.map(item=><span key={item}>{item}</span>)}</div></div></article>)}</div></section>
-  <section className="team-principles"><div className="container"><div className="team-principles-head"><span className="kicker light">How we work together</span><h2>One focused team.<br/><em>No handoff gaps.</em></h2><p>Strategy, design and development stay connected throughout the project, so every decision supports the same goal.</p></div><div className="principle-grid"><article><Sparkles/><span>01</span><h3>Thoughtful by default</h3><p>We ask the right questions early and make each design choice with purpose.</p></article><article><Layers3/><span>02</span><h3>Built as one system</h3><p>Design and development move together, creating experiences that look good and work beautifully.</p></article><article><Code2/><span>03</span><h3>Clear all the way</h3><p>Direct communication, visible progress and no mystery between the first call and launch.</p></article></div></div></section>
-  <section className="team-collab"><div className="container"><div><BadgeCheck size={22}/><span>Available for select projects</span></div><h2>Bring us your next<br/><em>ambitious idea.</em></h2><p>Tell us what you&apos;re building and we&apos;ll bring the right mix of strategy, design and technical capability.</p><Link className="button" href="/contact"><span className="button-sizer" aria-hidden="true"><span>Work With Our Team</span><i/></span><span className="button-label">Work With Our Team</span><span className="button-icon"><ArrowRight size={17}/></span></Link></div></section>
-  <SiteFooter />
-</main>}
+export default function TeamPage(){
+  const breadcrumbs = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Our Team", url: "/team" },
+  ]);
+
+  return <main className="team-page">
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(breadcrumbs),
+      }}
+    />
+    <InnerHeader active="team" />
+    <section className="team-page-hero"><div className="container"><div className="team-hero-grid"><div><span className="kicker">The people behind DevXStudio</span><h1>Small by design.<br/><em>Built for big ideas.</em></h1></div><div><p>We&apos;re a focused team of designers and developers who care about thoughtful details, clean execution and websites that genuinely move businesses forward.</p><div className="team-hero-proof"><span><strong>1000+</strong> Projects delivered</span><span><strong>400+</strong> Repeat clients</span></div></div></div></div></section>
+    <section className="team-roster"><div className="container">{members.map((member,index)=><article className="team-profile" key={member.name}><div className="team-profile-photo"><Image src={member.photo.replace(".jpg","-unified.png")} alt={`${member.name} — ${member.role} at DevXStudio, Wix Studio Agency`} width={720} height={900} priority={index<2} unoptimized/><span>{member.number}</span></div><div className="team-profile-copy"><span>{member.role}</span><h2>{member.name}</h2><p>{member.intro}</p><div>{member.specialties.map(item=><span key={item}>{item}</span>)}</div></div></article>)}</div></section>
+    <section className="team-principles"><div className="container"><div className="team-principles-head"><span className="kicker light">How we work together</span><h2>One focused team.<br/><em>No handoff gaps.</em></h2><p>Strategy, design and development stay connected throughout the project, so every decision supports the same goal.</p></div><div className="principle-grid"><article><Sparkles/><span>01</span><h3>Thoughtful by default</h3><p>We ask the right questions early and make each design choice with purpose.</p></article><article><Layers3/><span>02</span><h3>Built as one system</h3><p>Design and development move together, creating experiences that look good and work beautifully.</p></article><article><Code2/><span>03</span><h3>Clear all the way</h3><p>Direct communication, visible progress and no mystery between the first call and launch.</p></article></div></div></section>
+    <section className="team-collab"><div className="container"><div><BadgeCheck size={22}/><span>Available for select projects</span></div><h2>Bring us your next<br/><em>ambitious idea.</em></h2><p>Tell us what you&apos;re building and we&apos;ll bring the right mix of strategy, design and technical capability.</p><Link className="button" href="/contact"><span className="button-sizer" aria-hidden="true"><span>Work With Our Team</span><i/></span><span className="button-label">Work With Our Team</span><span className="button-icon"><ArrowRight size={17}/></span></Link></div></section>
+    <SiteFooter />
+  </main>;
+}
