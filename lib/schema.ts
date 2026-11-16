@@ -6,7 +6,7 @@ export const BRAND_NAME = "DevXStudio";
 export function getOrganizationSchema() {
   return {
     "@context": "https://schema.org",
-    "@type": ["Organization", "ProfessionalService"],
+    "@type": "Organization",
     "@id": `${SITE_URL}/#organization`,
     name: BRAND_NAME,
     alternateName: ["DevX Studio", "DevXStudio Wix Agency"],
@@ -15,16 +15,8 @@ export function getOrganizationSchema() {
     image: `${SITE_URL}/devx-wordmark.png`,
     email: "contact@devxstudio.agency",
     description:
-      "DevXStudio is a premier Wix Studio agency and Wix development partner specializing in custom Wix Studio website design, advanced Velo code development, and high-converting website redesigns.",
-    priceRange: "$$",
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "US",
-    },
-    areaServed: {
-      "@type": "Country",
-      name: "Worldwide",
-    },
+      "DevXStudio is a premier Wix Studio agency and Wix development partner based in Bangladesh, providing custom Wix Studio website design, advanced Velo code solutions, e-commerce stores, and high-converting website redesigns to clients worldwide.",
+    areaServed: "Worldwide",
     sameAs: [
       "https://www.wix.com/studio/community/partners/devx-studio",
     ],
@@ -53,6 +45,7 @@ export function getOrganizationSchema() {
             description:
               "Custom, responsive Wix Studio layouts, interactions, animations, and bespoke brand experiences.",
             provider: { "@id": `${SITE_URL}/#organization` },
+            areaServed: "Worldwide",
           },
         },
         {
@@ -63,6 +56,7 @@ export function getOrganizationSchema() {
             description:
               "Advanced Velo coding, custom database collections, backend API integrations, dynamic pages, and complex business logic.",
             provider: { "@id": `${SITE_URL}/#organization` },
+            areaServed: "Worldwide",
           },
         },
         {
@@ -73,6 +67,7 @@ export function getOrganizationSchema() {
             description:
               "Strategic modernization of outdated Wix or external websites into modern, high-converting Wix Studio experiences.",
             provider: { "@id": `${SITE_URL}/#organization` },
+            areaServed: "Worldwide",
           },
         },
         {
@@ -83,6 +78,7 @@ export function getOrganizationSchema() {
             description:
               "Dedicated senior Wix Studio and Velo developers for design agencies, startups, and growing enterprises.",
             provider: { "@id": `${SITE_URL}/#organization` },
+            areaServed: "Worldwide",
           },
         },
         {
@@ -93,6 +89,7 @@ export function getOrganizationSchema() {
             description:
               "Scalable e-commerce stores with custom checkout flows, payment gateways, product variations, and inventory integrations.",
             provider: { "@id": `${SITE_URL}/#organization` },
+            areaServed: "Worldwide",
           },
         },
       ],
@@ -164,4 +161,3 @@ export function getProjectCaseStudySchema(project: Project) {
     },
   };
 }
-
