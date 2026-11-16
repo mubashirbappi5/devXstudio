@@ -156,3 +156,4 @@ test("Urgency rush fees apply percentage calculation correctly", () => {
   assert.equal(estimateUrgent.appliedTimelineAdjustmentPercent, 25);
   assert.ok(estimateUrgent.estimatedMin > estimateStandard.estimatedMin);
 });
+

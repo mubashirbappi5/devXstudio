@@ -40,3 +40,4 @@ export async function DELETE() {
   cookieStore.delete(ADMIN_AUTH_COOKIE);
   return NextResponse.json({ success: true, message: "Logged out" });
 }
+

@@ -207,3 +207,4 @@ export const DEFAULT_PRICING_SETTINGS: PricingSettings = {
   updatedAt: "2026-11-16T11:00:00.000Z",
   updatedBy: "System Default",
 };
+

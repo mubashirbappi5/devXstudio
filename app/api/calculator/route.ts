@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { calculateProjectEstimate } from "@/lib/calculator/pricing-engine";
 import { getCalculatorConfig, saveLead } from "@/lib/calculator/storage";
 import type { CalculationInput, CalculatorLead } from "@/lib/calculator/types";
+import { sendLeadToErp } from "@/lib/erp";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
@@ -196,6 +197,30 @@ export async function POST(request: Request) {
       }).catch((err) => console.error("Resend notification error:", err));
     }
 
+    // 5. Forward to ERP Live Webhook (https://devx-erp.vercel.app/api/leads)
+    await sendLeadToErp({
+      full_name: leadRecord.fullName,
+      email: leadRecord.email,
+      phone: leadRecord.phone,
+      country: leadRecord.country,
+      company_name: leadRecord.companyName,
+      website_url: leadRecord.websiteUrl,
+      source: "Website Cost Calculator",
+      cta_type: leadRecord.ctaType,
+      service_name: leadRecord.serviceName,
+      platform: leadRecord.selectedPlatform || "N/A",
+      page_count: leadRecord.pageCount,
+      design_preference: leadRecord.designPreference,
+      project_complexity: leadRecord.projectComplexity,
+      timeline: leadRecord.timeline,
+      selected_features: featureNames,
+      estimated_min: estimate.estimatedMin,
+      estimated_max: estimate.estimatedMax,
+      currency: estimate.currency,
+      pricing_breakdown: estimate.breakdown,
+      additional_details: leadRecord.additionalDetails,
+    });
+
     return NextResponse.json({
       success: true,
       leadId: leadRecord.id,
@@ -209,3 +234,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

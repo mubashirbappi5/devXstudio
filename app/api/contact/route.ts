@@ -1,3 +1,5 @@
+import { sendLeadToErp } from "@/lib/erp";
+
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
 function escapeHtml(str: string): string {
@@ -81,6 +83,20 @@ export async function POST(request: Request) {
     });
 
     const data = await resendResponse.json().catch(() => null);
+
+    // Forward to ERP Live Webhook (https://devx-erp.vercel.app/api/leads)
+    sendLeadToErp({
+      full_name: name,
+      email: email,
+      company_name: company !== "Not specified" ? company : undefined,
+      source: "Contact Form",
+      cta_type: "general-inquiry",
+      service_name: projectType !== "Not specified" ? projectType : "General Inquiry",
+      timeline: timeline !== "Not specified" ? timeline : undefined,
+      additional_details: message,
+      country: "N/A",
+      currency: "USD",
+    }).catch((err) => console.error("ERP contact forward error:", err));
 
     if (!resendResponse.ok) {
       console.error("Resend API error:", data);
