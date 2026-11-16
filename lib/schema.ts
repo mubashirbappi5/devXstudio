@@ -164,3 +164,4 @@ export function getProjectCaseStudySchema(project: Project) {
     },
   };
 }
+
