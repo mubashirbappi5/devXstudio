@@ -5,11 +5,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Menu, X } from "lucide-react";
 
-const links = [["Home","/"],["Our Work","/work"],["Our Team","/team"],["Services","/#services"],["Contact","/contact"]];
+const links = [
+  ["Home", "/"],
+  ["Our Work", "/work"],
+  ["Our Team", "/team"],
+  ["Cost Calculator", "/website-cost-calculator"],
+  ["Services", "/#services"],
+  ["Contact", "/contact"],
+];
 
-export function InnerHeader({ active }: { active?: "work" | "team" | "contact" }) {
-  const [open,setOpen]=useState(false);
-  const isActive=(href:string)=>(active==="work"&&href==="/work")||(active==="team"&&href==="/team")||(active==="contact"&&href==="/contact");
+export function InnerHeader({ active }: { active?: "work" | "team" | "contact" | "calculator" }) {
+  const [open, setOpen] = useState(false);
+  const isActive = (href: string) =>
+    (active === "work" && href === "/work") ||
+    (active === "team" && href === "/team") ||
+    (active === "calculator" && href === "/website-cost-calculator") ||
+    (active === "contact" && href === "/contact");
   return <header className={`inner-header ${open?"menu-open":""}`}>
     <Link className="inner-brand" href="/" aria-label="DevXStudio home"><Image src="/devx-symbol.png" alt="DevXStudio — Wix Studio Agency" width={360} height={278} priority unoptimized/></Link>
     <nav aria-label="Main navigation">{links.map(([label,href])=><Link className={isActive(href)?"active":undefined} href={href} key={href} onClick={()=>setOpen(false)}>{label}</Link>)}</nav>

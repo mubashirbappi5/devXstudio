@@ -711,6 +711,7 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
     ["Services", "#services"],
     ["Our Work", "/work"],
     ["Our Team", "/team"],
+    ["Cost Calculator", "/website-cost-calculator"],
     ["Why DevXStudio", "#why"],
     ["Process", "#process"],
     ["Testimonials", "#testimonials"],
@@ -823,25 +824,31 @@ export function SitePage({ preview = false }: { preview?: boolean }) {
           className={menuOpen ? "nav-links open" : "nav-links"}
           aria-label="Main navigation"
         >
-          {nav.map(([label, href]) => (
-            <a key={href} href={href} onClick={() => setMenuOpen(false)}>
-              {label}
-            </a>
-          ))}
-          <a
+          {nav.map(([label, href]) =>
+            href.startsWith("/") ? (
+              <Link key={href} href={href} onClick={() => setMenuOpen(false)}>
+                {label}
+              </Link>
+            ) : (
+              <a key={href} href={href} onClick={() => setMenuOpen(false)}>
+                {label}
+              </a>
+            )
+          )}
+          <Link
             className="nav-mobile-cta"
             href="/contact"
             onClick={() => setMenuOpen(false)}
           >
             Start a Project <ArrowRight size={16} />
-          </a>
+          </Link>
         </nav>
-        <a className="nav-cta header-cta" href="/contact">
+        <Link className="nav-cta header-cta" href="/contact">
           <span className="nav-cta-label">Start a Project</span>
           <span className="nav-cta-icon">
             <ArrowRight size={16} />
           </span>
-        </a>
+        </Link>
         <button
           className="menu-button"
           aria-label="Toggle menu"

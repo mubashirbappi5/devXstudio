@@ -6,6 +6,7 @@ const links = [
   ["Home", "/"],
   ["Our Work", "/work"],
   ["Our Team", "/team"],
+  ["Cost Calculator", "/website-cost-calculator"],
   ["Services", "/#services"],
   ["Process", "/#process"],
   ["Contact", "/contact"],
